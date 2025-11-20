@@ -1,14 +1,6 @@
-# Gadget
+# display-board-test
 
-Testing out embedded programming with an ESP32 and SPI OLED display. To upload LittleFS filesystem with images:
+Testing out embedded programming with an ESP32 and T6963C (Toshiba) 240x128 Graphic LCD
 
-``` shell
-pio run --target buildfs
-pio run --target uploadfs
-```
-
-To build, upload and run code:
-
-``` shell
-pio run --target upload
-```
+Display module [datasheet](https://www.buydisplay.com/download/manual/ERM240128-2_Series_Datasheet.pdf)
+Controller IC (RA6963) [datasheet](https://www.buydisplay.com/download/ic/RA6963.pdf)
