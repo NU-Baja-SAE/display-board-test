@@ -25,38 +25,52 @@
 // pins ------------------------------------------------------------------------
 
 // data lines of the parallel interface
-#define d0 0
+#define d0 2
 #define d1 0
-#define d2 0
-#define d3 0
-#define d4 0
-#define d5 0
-#define d6 0
-#define d7 0
+#define d2 4
+#define d3 16
+#define d4 17
+#define d5 5
+#define d6 18
+#define d7 19
 // "write" for the 8080 interface (WR)
-#define enable 0
+#define wr 25
 // chip select line (CS)
-#define cs 0
-// data/command selection line (CS)
-#define dc 0
+#define cs 14
+// data/command selection line (DC)
+#define dc 27
 // reset line
-#define reset 0
+#define reset 26
+
+// rd shouldn't be floating, connect to 3.3v
 
 // display definition ----------------------------------------------------------
 
-U8G2 u8g2(U8G2_R0, d0, d1, d2, d3, d4, d5, d6, d7, enable, cs, dc, reset);
+U8G2 u8g2(U8G2_R0, d0, d1, d2, d3, d4, d5, d6, d7, wr, cs, dc, reset);
 
 // DISPLAY SETUP ===============================================================
 
 void setup() {
   Serial.begin(9600);
   u8g2.begin();
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_6x12_tr);
+  u8g2.drawStr(0, 20, "Hello from ESP32!");
+  u8g2.sendBuffer();
+  delay(1000);
 }
 
 // GAME LOOP ===================================================================
 
+auto x = 0;
 void loop() {
-  Serial.write("hello!\n");
+  u8g2.clearBuffer();
+  x += 2;
+  u8g2.drawCircle((50 + x) % SCREEN_WIDTH, 50, 20);
+  u8g2.drawArc((50+x) % SCREEN_WIDTH, 50, 10, 192-30, 192+30);
+  u8g2.drawCircle((50 + x) % SCREEN_WIDTH - 7, 43, 3);
+  u8g2.drawCircle((50 + x) % SCREEN_WIDTH + 7, 43, 3);
+  u8g2.sendBuffer();
 
   delay(100);
 }
